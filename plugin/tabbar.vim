@@ -372,8 +372,8 @@ function! <SID>Tb_Start(sticky, delBufNum)
         syn clear
         syn match Tb_Normal             '\[[^\]]*\]'
         syn match Tb_Changed            '\[[^\]]*\]+'
-        syn match Tb_VisibleNormal      '\[[^\]]*\]\*+\='
-        syn match Tb_VisibleChanged     '\[[^\]]*\]\*+'
+        syn match Tb_VisibleNormal      '\[[^\]]*\]\*'
+        syn match Tb_VisibleChanged     '\[[^\]]*\]&'
 
         if !exists("g:did_tabbar_syntax_inits")
             let g:did_tabbar_syntax_inits = 1
@@ -1126,15 +1126,26 @@ function! <SID>Bf_BuildList(delBufNum, updateBufList)
                         let l:y =l:y +1
                         let g:Tb_BufferMap=g:Tb_BufferMap . l:y . "-" . l:i . "\r"
                         let l:tab = '['.l:y.':'.l:shortBufName." ]"
+                        let l:open = 0
 
                         " If the buffer is open in a window mark it
                         if bufwinnr(l:i) != -1
-                            let l:tab = "[".l:y.':'.l:shortBufName."]*"
+                            let l:open = 1
                         endif
 
                         " If the buffer is modified then mark it
                         if(getbufvar(l:i, '&modified') == 1)
-                            let l:tab = l:tab . '+'
+                            if l:open == 1
+                                let l:tab = l:tab . '&'
+                            else
+                                let l:tab = l:tab . '+'
+                            endif
+                        else
+                            if l:open == 1
+                                let l:tab = l:tab . '*'
+                            else
+                                let l:tab = l:tab . ' '
+                            endif
                         endif
                         let l:maxTabWidth = <SID>Tb_Max(strlen(l:tab), l:maxTabWidth)
                         let l:fileNames = l:fileNames.l:tab
