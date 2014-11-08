@@ -188,7 +188,7 @@ endif" %%
 " lines.) Turning this option on (setting it to 1) can take more screen
 " space, but will make sure that each tab is on one and only one line.
 if !exists('g:Tb_TabWrap')
-    let g:Tb_TabWrap = 0
+    let g:Tb_TabWrap = 1
 endif" %%
 
 
@@ -1125,7 +1125,7 @@ function! <SID>Bf_BuildList(delBufNum, updateBufList)
                         let l:shortBufName = substitute(l:shortBufName, '[][()]', '', 'g')
                         let l:y =l:y +1
                         let g:Tb_BufferMap=g:Tb_BufferMap . l:y . "-" . l:i . "\r"
-                        let l:tab = '['.l:y.':'.l:shortBufName." ]"
+                        let l:tab = '['.l:y.':'.l:shortBufName."]"
                         let l:open = 0
 
                         " If the buffer is open in a window mark it
