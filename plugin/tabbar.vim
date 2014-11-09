@@ -1036,7 +1036,7 @@ function! <SID>Bf_SafePrint(delBufNum)
     call <SID>Bf_PrintList(a:delBufNum)
     call <SID>Win_Resize()
 
-    normal! zz
+    normal! z-
 
     " Prevent the buffer from being modified.
     setlocal nomodifiable
