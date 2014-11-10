@@ -412,11 +412,13 @@ function! <SID>Tb_Start(sticky, delBufNum)
 
     call <SID>Bf_SafePrint(a:delBufNum)
 
+    normal! gg
     if (l:curBuf != -1)
-        call search('\['.l:curBuf.':'.expand('#'.l:curBuf.':t').'\]')
+        call search('\[[0-9]*:'.expand('#'.l:curBuf.':t').'\]')
     else
         call <SID>DEBUG('Tb_Start: No current buffer to search for',9)
     endif
+    normal! zb
 
     let &report  = l:save_rep
     let &showcmd = l:save_sc
@@ -1035,8 +1037,6 @@ function! <SID>Bf_SafePrint(delBufNum)
 
     call <SID>Bf_PrintList(a:delBufNum)
     call <SID>Win_Resize()
-
-    normal! z-
 
     " Prevent the buffer from being modified.
     setlocal nomodifiable
